@@ -35,9 +35,9 @@ export default function App() {
           <StageCanvas progress={progress} />
         </Suspense>
       ) : (
-        <SessionField />
+        <SessionField progress={progress} />
       )}
-      <TalkingArc />
+      {showVolume ? <TalkingArc /> : null}
       <SystemStrip progress={progress} />
       <CommsRail />
       <ListenBar progress={progress} />

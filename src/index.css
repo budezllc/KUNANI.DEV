@@ -16,6 +16,12 @@
   --strip: 3.15rem;
   --listen: 3.05rem;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --fx-tempo: 1;
+  --fx-spin: 0deg;
+  --fx-glow: 0.28;
+  --fx-pulse: 0.7;
+  --fx-look-x: 0;
+  --fx-look-y: 0;
 }
 
 *,
@@ -89,20 +95,52 @@ a:hover {
 }
 
 .session-field {
-  background:
-    radial-gradient(ellipse at 70% 18%, rgba(110, 231, 210, 0.08), transparent 42%),
-    radial-gradient(ellipse at 12% 88%, rgba(228, 180, 76, 0.07), transparent 40%),
-    var(--chassis);
+  background: var(--chassis);
 }
 
-.session-grid {
+.host-stage {
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(110, 231, 210, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(110, 231, 210, 0.05) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse at 50% 40%, black 20%, transparent 78%);
+  overflow: hidden;
+  --host-x: 0px;
+  --host-y: 0px;
+}
+
+.host-frame {
+  position: absolute;
+  right: -6vw;
+  top: 48%;
+  height: min(96vh, 58rem);
+  width: auto;
+  max-width: none;
+  transform: translateY(-50%) translate3d(var(--host-x), var(--host-y), 0);
+  pointer-events: none;
+  user-select: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 24%, black 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, black 24%, black 100%);
+}
+
+.host-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, var(--chassis) 0%, transparent 42%),
+    radial-gradient(ellipse at 78% 50%, transparent 18%, rgba(7, 9, 12, 0.45) 72%);
+  pointer-events: none;
+}
+
+.android-canvas,
+.android-fallback {
+  position: absolute;
+  inset: 0;
+}
+
+.android-fallback {
+  background:
+    radial-gradient(ellipse at 72% 48%, rgba(110, 231, 210, 0.12), transparent 42%),
+    url("/media/host/00.png") 78% 46% / auto min(90vh, 52rem) no-repeat,
+    var(--chassis);
 }
 
 .session-scan {
@@ -113,7 +151,8 @@ a:hover {
     transparent 0 3px,
     rgba(0, 0, 0, 0.18) 3px 4px
   );
-  opacity: 0.35;
+  opacity: 0.28;
+  animation: field-scan 9s linear infinite;
 }
 
 .corner {
@@ -650,8 +689,15 @@ main.is-playing .tool-json {
   z-index: 1;
   width: min(34vw, 24rem);
   height: min(34vw, 24rem);
-  transform: translateY(-50%);
+  transform:
+    translateY(-50%)
+    translate(
+      calc(var(--fx-look-x, 0) * 36px),
+      calc(var(--fx-look-y, 0) * 24px)
+    )
+    rotate(calc(var(--fx-spin, 0deg) * 0.04));
   pointer-events: none;
+  filter: drop-shadow(0 0 calc(18px + var(--fx-glow, 0.28) * 28px) rgba(110, 231, 210, 0.35));
 }
 
 .arc-ring {
@@ -678,12 +724,12 @@ main.is-playing .tool-json {
 }
 
 .arc-ring-a {
-  animation: spin 28s linear infinite;
+  animation: spin calc(28s / var(--fx-tempo, 1)) linear infinite;
 }
 
 .arc-ring-b {
   inset: 22%;
-  animation: spin 18s linear infinite reverse;
+  animation: spin calc(18s / var(--fx-tempo, 1)) linear infinite reverse;
 }
 
 .arc-ring-b .arc-pulse {
@@ -759,6 +805,12 @@ main.is-playing .tool-json {
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes field-scan {
+  to {
+    background-position: 0 12px;
   }
 }
 
@@ -1088,6 +1140,7 @@ main.is-playing .tool-json {
   .arc-thinking .arc-ring-a .arc-pulse,
   .arc-thinking .arc-ring-b .arc-pulse,
   .arc-listening .arc-core,
+  .session-scan,
   .caret {
     animation: none;
   }
