@@ -36,4 +36,4 @@ npm run build
 
 ## Deploy
 
-GitHub Pages via Actions on `main` (`npm test` then `npm run build`). Custom domain is `kunani.dev` (`public/CNAME`). Point DNS at GitHub Pages after the first green deploy.
+GitHub Pages serves the `gh-pages` branch (Vite `dist/`). Custom domain is `kunani.dev` (`public/CNAME`). Point DNS at GitHub Pages after the first deploy.
