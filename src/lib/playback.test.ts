@@ -17,6 +17,7 @@ import {
   snapToBottomDelta,
   fitInViewDelta,
   shouldAutoplay,
+  shouldInterruptFromWheel,
   showSiteFooter,
   totalDuration,
   typeDuration,
@@ -265,6 +266,18 @@ describe("playback clock", () => {
     expect(isHashNavHref("https://github.com/budezllc")).toBe(false);
     expect(playbackProgress("hero", ids)).toBe(0);
     expect(playbackProgress("about", ids)).toBe(1);
+    expect(shouldInterruptFromWheel(0, 0, { programmatic: false, playingForMs: 5_000 })).toBe(
+      false,
+    );
+    expect(shouldInterruptFromWheel(0, 80, { programmatic: true, playingForMs: 5_000 })).toBe(
+      false,
+    );
+    expect(shouldInterruptFromWheel(0, 80, { programmatic: false, playingForMs: 100 })).toBe(
+      false,
+    );
+    expect(shouldInterruptFromWheel(0, 80, { programmatic: false, playingForMs: 2_000 })).toBe(
+      true,
+    );
     expect(typeof PlaybackProvider).toBe("function");
     expect(typeof usePlayback).toBe("function");
     expect(projects.length).toBeGreaterThan(0);

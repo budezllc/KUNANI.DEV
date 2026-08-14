@@ -94,7 +94,15 @@ a:hover {
   pointer-events: none;
 }
 
+.session-field,
+.session-field *,
+.host-stage,
+.host-frame {
+  pointer-events: none;
+}
+
 .session-field {
+  overflow: hidden;
   background: var(--chassis);
 }
 
@@ -110,9 +118,12 @@ a:hover {
   position: absolute;
   right: -6vw;
   top: 48%;
+  display: block;
   height: min(96vh, 58rem);
   width: auto;
   max-width: none;
+  object-fit: cover;
+  object-position: center right;
   transform: translateY(-50%) translate3d(var(--host-x), var(--host-y), 0);
   pointer-events: none;
   user-select: none;

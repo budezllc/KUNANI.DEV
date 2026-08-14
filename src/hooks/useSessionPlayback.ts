@@ -24,6 +24,7 @@ import {
   snapToBottomDelta,
   fitInViewDelta,
   shouldAutoplay,
+  shouldInterruptFromWheel,
   snapshotChanged,
   voiceState,
   type EventView,
@@ -69,7 +70,7 @@ export function PlaybackProvider({
   const beats = useMemo(() => buildTimeline(events), [events]);
   const ids = useMemo(() => chapterIds(), []);
   const [mode, setMode] = useState<"playing" | "idle">(() =>
-    initialMode(reducedMotion),
+    initialMode(false),
   );
   const [snap, setSnap] = useState<PlaybackSnapshot>(() =>
     playbackAt(mode === "playing" ? 0 : Number.POSITIVE_INFINITY, beats),
@@ -107,8 +108,12 @@ export function PlaybackProvider({
 
     const apply = (next: PlaybackSnapshot) => {
       if (cancelled) return;
-      const cue = scrollCue(snapRef.current, next);
-      if (snapshotChanged(snapRef.current, next)) setSnap(next);
+      const prev = snapRef.current;
+      const cue = scrollCue(prev, next);
+      if (snapshotChanged(prev, next)) {
+        snapRef.current = next;
+        setSnap(next);
+      }
       if (cue?.mode === "snap" || cue?.mode === "fit") {
         paused = true;
         programmatic.current = true;
@@ -199,10 +204,20 @@ export function PlaybackProvider({
   useEffect(() => {
     if (mode !== "playing") return;
 
-    const onWheel = () => {
-      if (!programmatic.current) interrupt();
+    const started = performance.now();
+    const onWheel = (event: WheelEvent) => {
+      if (
+        !shouldInterruptFromWheel(event.deltaX, event.deltaY, {
+          programmatic: programmatic.current,
+          playingForMs: performance.now() - started,
+        })
+      ) {
+        return;
+      }
+      interrupt();
     };
     const onTouch = () => {
+      if (performance.now() - started < PLAYBACK.interruptGraceMs) return;
       if (!programmatic.current) interrupt();
     };
     const onKey = (event: KeyboardEvent) => {

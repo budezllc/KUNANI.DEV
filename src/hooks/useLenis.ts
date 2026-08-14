@@ -22,6 +22,7 @@ export function useLenis(enabled: boolean) {
       lerp: 0.085,
       smoothWheel: true,
       anchors: true,
+      respectReducedMotion: false,
     });
     lenisRef.current = lenis;
 

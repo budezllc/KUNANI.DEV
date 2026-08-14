@@ -12,6 +12,9 @@ export const PLAYBACK = {
   snapFooterPx: 120,
   /** Listen bar plus air so the about socials sit above it, not behind it. */
   fitFooterPx: 176,
+  /** Ignore load/trackpad noise so the reel can actually start moving. */
+  interruptGraceMs: 900,
+  interruptWheelPx: 6,
 } as const;
 
 export type BeatKind = "instant" | "type" | "think" | "hold";
@@ -239,6 +242,17 @@ export function isUserScrollKey(key: string): boolean {
 export function isHashNavHref(href: string | null): boolean {
   if (!href) return false;
   return href.startsWith("#");
+}
+
+/** True only for a real user flick — not Lenis, not a 0-delta trackpad tick, not boot noise. */
+export function shouldInterruptFromWheel(
+  deltaX: number,
+  deltaY: number,
+  input: { programmatic: boolean; playingForMs: number },
+): boolean {
+  if (input.programmatic) return false;
+  if (input.playingForMs < PLAYBACK.interruptGraceMs) return false;
+  return Math.hypot(deltaX, deltaY) >= PLAYBACK.interruptWheelPx;
 }
 
 export function snapshotChanged(
