@@ -82,7 +82,7 @@ describe("hostPlaybackRate", () => {
     expect(hostPlaybackRate(60)).toBeCloseTo(0.4);
     expect(hostPlaybackRate(24)).toBe(1);
     expect(HOST_MIN_PLAYBACK_FPS).toBe(24);
-    expect(hostEffectiveClipSec(6, 60)).toBeCloseTo(15);
+    expect(hostEffectiveClipSec(12, 60)).toBeCloseTo(30);
   });
 });
 
@@ -101,10 +101,10 @@ describe("hostClockProgress", () => {
 
 describe("hostLoopsToCover", () => {
   it("loops the slowed 60fps plate through the autoplay wall clock", () => {
-    expect(HOST_CLIP).toEqual({ durationSec: 6, fps: 60 });
+    expect(HOST_CLIP).toEqual({ durationSec: 12, fps: 60 });
     const sessionMs = totalDuration(buildTimeline(sessionEvents()));
     const cover = hostSuggestedClipSec(sessionMs, chapterIds().length);
-    expect(hostLoopsToCover(hostEffectiveClipSec(HOST_CLIP.durationSec), cover)).toBe(6);
+    expect(hostLoopsToCover(hostEffectiveClipSec(HOST_CLIP.durationSec), cover)).toBe(3);
   });
 });
 

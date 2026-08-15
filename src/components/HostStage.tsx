@@ -176,8 +176,8 @@ export function HostStage({ progress, reducedMotion }: Props) {
           preload="auto"
           poster={HOST_FRAMES[0]}
           src={HOST_VIDEO}
-          width={1024}
-          height={1332}
+          width={1080}
+          height={1404}
           onError={() => setUseStills(true)}
         />
       )}
