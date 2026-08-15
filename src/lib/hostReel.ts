@@ -2,9 +2,9 @@ import { clamp } from "./math";
 
 export const HOST_VIDEO = "/media/host/host.mp4";
 
-/** CapCut plate: ~12s @ 60fps. Autoplay slows it to ~24fps so the orbit lasts longer. */
-export const HOST_CLIP = { durationSec: 12, fps: 60 } as const;
-export const HOST_MIN_PLAYBACK_FPS = 24;
+/** MiniMax plate: ~6s @ 60fps. Autoplay slows it to ~27fps so the orbit lasts longer. */
+export const HOST_CLIP = { durationSec: 6, fps: 60 } as const;
+export const HOST_MIN_PLAYBACK_FPS = 27;
 
 export const HOST_FRAMES = [
   "/media/host/00.png",
@@ -59,7 +59,7 @@ export function hostPlayAlong(
   return mode === "playing" && !reducedMotion;
 }
 
-/** Slow 60fps to ~24fps during autoplay. Do not go slower — that is the ticky look. */
+/** Slow 60fps to ~27fps during autoplay. */
 export function hostPlaybackRate(fps: number = HOST_CLIP.fps): number {
   if (!(fps > 0) || !Number.isFinite(fps)) return 1;
   return clamp(HOST_MIN_PLAYBACK_FPS / fps, 0.0625, 1);
