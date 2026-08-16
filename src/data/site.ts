@@ -14,7 +14,31 @@ export const site = {
   years: "1980s — now",
   location: "Las Vegas",
   githubUser: "budezllc",
-};
+  title: "Kunani — Kei Sakai",
+  themeColor: "#07090c",
+  locale: "en_US",
+  ogImage: "/og.png",
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
+  ogImageType: "image/png",
+  ogImageAlt: "Kei Sakai as a Westworld-style host — Kunani",
+} as const;
+
+export const share = {
+  title: site.title,
+  description: site.description,
+  url: site.url,
+  siteName: site.name,
+  type: "website",
+  locale: site.locale,
+  image: `${site.url}${site.ogImage}`,
+  imageWidth: String(site.ogImageWidth),
+  imageHeight: String(site.ogImageHeight),
+  imageType: site.ogImageType,
+  imageAlt: site.ogImageAlt,
+  twitterCard: "summary_large_image",
+  twitterSite: site.handle,
+} as const;
 
 export const socials: SiteSocial[] = [
   { label: "GitHub", href: "https://github.com/budezllc" },
