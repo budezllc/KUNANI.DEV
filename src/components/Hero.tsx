@@ -1,4 +1,5 @@
 import { site, socials } from "../data/site";
+import { catalogHref } from "../lib/catalog";
 import { session } from "../lib/session";
 import { usePlayback } from "../hooks/useSessionPlayback";
 import { StreamText } from "./StreamText";
@@ -48,7 +49,7 @@ export function Hero() {
               <>
                 <p className="hero-tag">{site.tagline}</p>
                 <div className="hero-cta">
-                  <a className="btn" href="#side-eye">
+                  <a className="btn" href={catalogHref()}>
                     Open catalog
                   </a>
                   <a className="btn btn-ghost" href={socials[0].href}>

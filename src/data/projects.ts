@@ -6,8 +6,39 @@ import type { Project } from "./types";
  * Add a new project: copy an entry, give it a unique `slug`, fill copy/links,
  * and pick a `world.kind` (used if the parked Three.js stage is restored).
  * Order in this array is the scroll order after the hero.
+ * Prepend new ships so the newest work is always first.
  */
 export const projects: Project[] = [
+  {
+    slug: "dictate-capture",
+    title: "Dictate Capture",
+    kicker: "Tool · Windows",
+    reel: "00:03:40",
+    year: "2026",
+    lane: "tool",
+    openSource: true,
+    featured: true,
+    summary:
+      "Hold a shortcut to talk into Grok Bot or Cursor. Drag a gold box while you hold, and the screenshot lands in chat with your words.",
+    body: "Background tray helpers for Windows: hold Ctrl+D in Grok Bot or Ctrl+M in Cursor to dictate. While the keys are down you can drag a gold box around any screen; let go and the transcript plus the crop paste into the chat box — you hit Enter when it looks right. Installs per-user, starts at login, optional Stream Deck buttons. Nothing is uploaded.",
+    tags: ["Windows", "dictate", "Grok Bot", "Cursor", "screenshot"],
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/budezllc/dictate-capture",
+        kind: "repo",
+      },
+    ],
+    world: {
+      kind: "voice",
+      palette: {
+        primary: "#d4b06a",
+        secondary: "#8fb8b0",
+        accent: "#e56b3c",
+        fog: "#14100c",
+      },
+    },
+  },
   {
     slug: "side-eye",
     title: "Side Eye",

@@ -8,6 +8,7 @@ import { ProjectChapter } from "./components/ProjectChapter";
 import { About, Footer } from "./components/About";
 import { ListenBar } from "./components/ListenBar";
 import { projects } from "./data/projects";
+import { catalogHref } from "./lib/catalog";
 import { useLenis } from "./hooks/useLenis";
 import { useReducedMotion } from "./hooks/useReducedMotion";
 import { useScrollProgress } from "./hooks/useScrollProgress";
@@ -27,7 +28,7 @@ export default function App() {
 
   return (
     <PlaybackProvider reducedMotion={reduced} scrollTo={scrollTo}>
-      <a className="skip" href="#side-eye">
+      <a className="skip" href={catalogHref()}>
         Skip to work
       </a>
       {showVolume ? (

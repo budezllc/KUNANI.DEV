@@ -24,6 +24,7 @@ const KINDS = new Set([
 const LINK_KINDS = new Set(["live", "repo", "store", "docs", "video", "archive"]);
 
 export const REQUIRED_SLUGS = [
+  "dictate-capture",
   "side-eye",
   "zork-reborn",
   "cursor-jarvis",
@@ -120,6 +121,17 @@ export function getProjectBySlug(
   list: Project[] = projects,
 ): Project | undefined {
   return list.find((project) => project.slug === slug);
+}
+
+/** First catalog chapter — newest work is always prepended. */
+export function newestProject(list: Project[] = projects): Project {
+  const first = list[0];
+  if (!first) throw new Error("catalog is empty");
+  return first;
+}
+
+export function catalogHref(list: Project[] = projects): string {
+  return `#${newestProject(list).slug}`;
 }
 
 export function featuredProjects(list: Project[] = projects): Project[] {

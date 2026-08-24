@@ -6,9 +6,11 @@ import {
   REQUIRED_SLUGS,
   assertCatalog,
   assertProject,
+  catalogHref,
   chapterIds,
   featuredProjects,
   getProjectBySlug,
+  newestProject,
   projectsByLane,
   scrollWorlds,
 } from "./catalog";
@@ -24,6 +26,15 @@ describe("catalog", () => {
     }
   });
 
+  it("keeps the newest ship first so catalog jumps land on it", () => {
+    expect(projects[0].slug).toBe("dictate-capture");
+    expect(newestProject().slug).toBe("dictate-capture");
+    expect(catalogHref()).toBe("#dictate-capture");
+    expect(catalogHref([{ ...projects[1], slug: "brand-new" }, ...projects])).toBe(
+      "#brand-new",
+    );
+  });
+
   it("keeps slugs unique and kebab-case", () => {
     const slugs = projects.map((project) => project.slug);
     expect(new Set(slugs).size).toBe(slugs.length);
@@ -36,6 +47,7 @@ describe("catalog", () => {
     const featured = featuredProjects().map((project) => project.slug);
     expect(featured).toEqual(
       expect.arrayContaining([
+        "dictate-capture",
         "side-eye",
         "capture",
         "zork-reborn",
@@ -52,6 +64,7 @@ describe("catalog", () => {
       "capture",
     ]);
     expect(projectsByLane("tool").map((p) => p.slug)).toEqual([
+      "dictate-capture",
       "token-savers",
       "cursor-jarvis",
       "switchyard",
@@ -84,6 +97,21 @@ describe("catalog", () => {
       src: "/media/zork-reborn.png",
       title: "Zork Reborn — West of House",
     });
+  });
+
+  it("links Dictate Capture to the public repo", () => {
+    const capture = getProjectBySlug("dictate-capture");
+    expect(capture?.title).toBe("Dictate Capture");
+    expect(capture?.featured).toBe(true);
+    expect(capture?.openSource).toBe(true);
+    expect(capture?.summary).toMatch(/gold box/i);
+    expect(capture?.links).toEqual([
+      {
+        label: "GitHub",
+        href: "https://github.com/budezllc/dictate-capture",
+        kind: "repo",
+      },
+    ]);
   });
 
   it("shows the getsideeye.com snapshot on the Side Eye chapter", () => {

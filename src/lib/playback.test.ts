@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { projects } from "../data/projects";
-import { chapterIds } from "./catalog";
+import { chapterIds, newestProject } from "./catalog";
 import {
   PLAYBACK,
   buildTimeline,
@@ -52,7 +52,7 @@ describe("playback clock", () => {
     expect(snap.chapterId).toBe("hero");
     expect(snap.completedIds).toEqual([]);
     expect(chapterUnlocked("hero", snap, ids, false)).toBe(true);
-    expect(chapterUnlocked("side-eye", snap, ids, false)).toBe(false);
+    expect(chapterUnlocked(newestProject().slug, snap, ids, false)).toBe(false);
     const rx = events.find((event) => event.id === "rx-hero");
     expect(rx).toBeDefined();
     expect(eventView(rx!, snap, false).show).toBe(false);
@@ -77,7 +77,7 @@ describe("playback clock", () => {
   });
 
   it("pins the finished chapter to the top when the reel advances", () => {
-    expect(pinScrollId("hero", "side-eye")).toBe("hero");
+    expect(pinScrollId("hero", newestProject().slug)).toBe("hero");
     expect(pinScrollId("side-eye", "token-savers")).toBe("side-eye");
     expect(pinScrollId("about", "about")).toBe("about");
   });
@@ -110,17 +110,18 @@ describe("playback clock", () => {
       selector: "#hero-reply",
     });
 
-    const sideIndex = beats.findIndex((beat) => beat.chapterId === "side-eye");
+    const first = newestProject();
+    const firstIndex = beats.findIndex((beat) => beat.chapterId === first.slug);
     elapsed = 0;
-    for (let i = 0; i < sideIndex; i += 1) elapsed += beats[i].durationMs;
+    for (let i = 0; i < firstIndex; i += 1) elapsed += beats[i].durationMs;
     const leavingHero = playbackAt(elapsed - 1, beats);
-    const enteringSide = playbackAt(elapsed, beats);
+    const enteringFirst = playbackAt(elapsed, beats);
     expect(leavingHero.chapterId).toBe("hero");
-    expect(enteringSide.chapterId).toBe("side-eye");
-    expect(enteringSide.active?.eventId).toBe("think-side-eye");
-    expect(scrollCue(leavingHero, enteringSide)).toEqual({
+    expect(enteringFirst.chapterId).toBe(first.slug);
+    expect(enteringFirst.active?.eventId).toBe(`think-${first.slug}`);
+    expect(scrollCue(leavingHero, enteringFirst)).toEqual({
       mode: "follow",
-      selector: "#side-eye",
+      selector: `#${first.slug}`,
     });
 
     elapsed = 0;
@@ -228,11 +229,12 @@ describe("playback clock", () => {
 
   it("unlocks the next project after the hero hold and keeps later chapters queued", () => {
     let elapsed = 0;
-    const sideEyeIndex = beats.findIndex((beat) => beat.chapterId === "side-eye");
-    for (let i = 0; i < sideEyeIndex; i += 1) elapsed += beats[i].durationMs;
+    const first = newestProject();
+    const firstIndex = beats.findIndex((beat) => beat.chapterId === first.slug);
+    for (let i = 0; i < firstIndex; i += 1) elapsed += beats[i].durationMs;
     const snap = playbackAt(elapsed, beats);
-    expect(snap.chapterId).toBe("side-eye");
-    expect(chapterUnlocked("side-eye", snap, ids, false)).toBe(true);
+    expect(snap.chapterId).toBe(first.slug);
+    expect(chapterUnlocked(first.slug, snap, ids, false)).toBe(true);
     expect(chapterUnlocked("about", snap, ids, false)).toBe(false);
     expect(chapterUnlocked("about", snap, ids, true)).toBe(true);
   });
@@ -256,7 +258,7 @@ describe("playback clock", () => {
     expect(shouldAutoplay({ reducedMotion: false, hash: "" })).toBe(true);
     expect(shouldAutoplay({ reducedMotion: false, hash: "#" })).toBe(true);
     expect(shouldAutoplay({ reducedMotion: false, hash: "#hero" })).toBe(true);
-    expect(shouldAutoplay({ reducedMotion: false, hash: "#side-eye" })).toBe(false);
+    expect(shouldAutoplay({ reducedMotion: false, hash: `#${newestProject().slug}` })).toBe(false);
     expect(shouldAutoplay({ reducedMotion: true, hash: "" })).toBe(false);
     expect(showSiteFooter("playing")).toBe(false);
     expect(showSiteFooter("idle")).toBe(true);

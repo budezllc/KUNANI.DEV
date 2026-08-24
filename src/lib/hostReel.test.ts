@@ -112,9 +112,9 @@ describe("hostSuggestedClipSec", () => {
   it("asks for a 1x clip that lasts the whole autoplay including snap pauses", () => {
     const sessionMs = totalDuration(buildTimeline(sessionEvents()));
     const sec = hostSuggestedClipSec(sessionMs, chapterIds().length);
-    expect(sessionMs).toBe(71_690);
-    expect(chapterIds()).toHaveLength(11);
-    expect(sec).toBe(83);
+    expect(sessionMs).toBe(78_470);
+    expect(chapterIds()).toHaveLength(12);
+    expect(sec).toBe(91);
   });
 });
 

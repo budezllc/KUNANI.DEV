@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { socials } from "../data/site";
 import { usePlayback } from "../hooks/useSessionPlayback";
 import { useReducedMotion } from "../hooks/useReducedMotion";
-import { chapterIds } from "../lib/catalog";
+import { catalogHref, chapterIds } from "../lib/catalog";
 import { playbackProgress } from "../lib/playback";
 import { contextMeter, formatTokens, session } from "../lib/session";
 import {
@@ -77,7 +77,7 @@ export function SystemStrip({ progress }: Props) {
         </div>
       </dl>
       <nav className="sys-links" aria-label="Primary">
-        <a href="#side-eye">Catalog</a>
+        <a href={catalogHref()}>Catalog</a>
         <a href="#zork-reborn">Games</a>
         <a href="#virtual-stage">Stage</a>
         <a href="#about">Operator</a>
