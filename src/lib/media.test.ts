@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { getProjectBySlug } from "./catalog";
 import {
@@ -23,6 +25,18 @@ describe("media", () => {
     expect(youtubeEmbedSrc(shmup.media.id)).toBe(
       "https://www.youtube-nocookie.com/embed/AqRvpqR8CFs?rel=0",
     );
+  });
+
+  it("keeps MASKCLAW hero and screenshots as local public paths", () => {
+    const claw = getProjectBySlug("maskclaw");
+    expect(claw?.media?.kind).toBe("gallery");
+    if (claw?.media?.kind !== "gallery") throw new Error("expected gallery media");
+    expect(isLocalImageSrc(claw.media.hero.src)).toBe(true);
+    expect(claw.media.shots).toHaveLength(4);
+    for (const shot of [claw.media.hero, ...claw.media.shots]) {
+      expect(isLocalImageSrc(shot.src)).toBe(true);
+      expect(existsSync(resolve(process.cwd(), `public${shot.src}`))).toBe(true);
+    }
   });
 
   it("keeps the Zork Reborn snapshot as a local public path", () => {

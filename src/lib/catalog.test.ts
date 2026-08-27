@@ -27,9 +27,9 @@ describe("catalog", () => {
   });
 
   it("keeps the newest ship first so catalog jumps land on it", () => {
-    expect(projects[0].slug).toBe("dictate-capture");
-    expect(newestProject().slug).toBe("dictate-capture");
-    expect(catalogHref()).toBe("#dictate-capture");
+    expect(projects[0].slug).toBe("maskclaw");
+    expect(newestProject().slug).toBe("maskclaw");
+    expect(catalogHref()).toBe("#maskclaw");
     expect(catalogHref([{ ...projects[1], slug: "brand-new" }, ...projects])).toBe(
       "#brand-new",
     );
@@ -47,6 +47,7 @@ describe("catalog", () => {
     const featured = featuredProjects().map((project) => project.slug);
     expect(featured).toEqual(
       expect.arrayContaining([
+        "maskclaw",
         "dictate-capture",
         "side-eye",
         "capture",
@@ -97,6 +98,48 @@ describe("catalog", () => {
       src: "/media/zork-reborn.png",
       title: "Zork Reborn — West of House",
     });
+  });
+
+  it("links MASKCLAW to the site and repo, with the README hero and four shots", () => {
+    const claw = getProjectBySlug("maskclaw");
+    expect(claw?.title).toBe("MASKCLAW");
+    expect(claw?.featured).toBe(true);
+    expect(claw?.openSource).toBe(true);
+    expect(claw?.summary).toMatch(/privacy proxy/i);
+    expect(claw?.links).toEqual([
+      { label: "maskclaw.com", href: "https://maskclaw.com", kind: "live" },
+      {
+        label: "GitHub",
+        href: "https://github.com/budezllc/maskclaw",
+        kind: "repo",
+      },
+    ]);
+    expect(claw?.media).toEqual({
+      kind: "gallery",
+      hero: {
+        src: "/media/maskclaw/hero.png",
+        title: "MASKCLAW — privacy proxy header",
+      },
+      shots: [
+        { src: "/media/maskclaw/home.png", title: "MASKCLAW — HOME" },
+        { src: "/media/maskclaw/masked.png", title: "MASKCLAW — MASKED" },
+        { src: "/media/maskclaw/models.png", title: "MASKCLAW — MODELS" },
+        { src: "/media/maskclaw/settings.png", title: "MASKCLAW — SETTINGS" },
+      ],
+    });
+  });
+
+  it("rejects a gallery with no shots so MASKCLAW-style entries stay complete", () => {
+    const broken = {
+      ...projects[0],
+      slug: "new-thing",
+      media: {
+        kind: "gallery" as const,
+        hero: { src: "/media/maskclaw/hero.png", title: "Header" },
+        shots: [],
+      },
+    };
+    expect(() => assertProject(broken)).toThrow(/at least one shot/);
   });
 
   it("links Dictate Capture to the public repo", () => {

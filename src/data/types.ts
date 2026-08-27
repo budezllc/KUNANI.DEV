@@ -33,6 +33,11 @@ export type WorldConfig = {
   palette: WorldPalette;
 };
 
+export type ProjectStill = {
+  src: string;
+  title: string;
+};
+
 export type ProjectMedia =
   | {
       kind: "youtube";
@@ -43,6 +48,11 @@ export type ProjectMedia =
       kind: "image";
       src: string;
       title: string;
+    }
+  | {
+      kind: "gallery";
+      hero: ProjectStill;
+      shots: ProjectStill[];
     };
 
 export type Project = {

@@ -1056,6 +1056,37 @@ main.is-playing .tool-json {
   object-fit: contain;
 }
 
+.shot-gallery {
+  margin-top: 1.3rem;
+  width: min(100%, 36rem);
+}
+
+.shot-banner {
+  margin: 0;
+  border: 1px solid var(--line);
+  background: #000;
+  box-shadow: 0 0 0 1px rgba(110, 231, 210, 0.12);
+}
+
+.shot-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.shot-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+  margin-top: 0.55rem;
+}
+
+.shot-grid .shot-frame {
+  width: 100%;
+  margin: 0;
+  aspect-ratio: 16 / 10;
+}
+
 .site-footer {
   position: relative;
   z-index: 2;

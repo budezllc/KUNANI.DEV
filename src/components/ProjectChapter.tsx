@@ -35,6 +35,20 @@ function ProjectMediaFrame({ media }: { media: ProjectMedia }) {
   if (media.kind === "youtube") {
     return <YouTubeEmbed id={media.id} title={media.title} />;
   }
+  if (media.kind === "gallery") {
+    return (
+      <div className="shot-gallery">
+        <figure className="shot-banner">
+          <img src={media.hero.src} alt={media.hero.title} />
+        </figure>
+        <div className="shot-grid">
+          {media.shots.map((shot) => (
+            <SnapshotFrame key={shot.src} src={shot.src} title={shot.title} />
+          ))}
+        </div>
+      </div>
+    );
+  }
   return <SnapshotFrame src={media.src} title={media.title} />;
 }
 

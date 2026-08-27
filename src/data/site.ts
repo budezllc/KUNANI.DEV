@@ -9,7 +9,7 @@ export const site = {
   company: "Kunani Gaming",
   tagline: "Worlds, tools, and stages.",
   description:
-    "Kei Sakai — Kunani. Game worlds, local AI tools, and real-time 3D stages. Dictate Capture, Side Eye, Token Savers, Zork Reborn, CAPTURE! for Quake II, and more.",
+    "Kei Sakai — Kunani. Game worlds, local AI tools, and real-time 3D stages. MASKCLAW, Dictate Capture, Side Eye, Token Savers, Zork Reborn, CAPTURE! for Quake II, and more.",
   heroLine: "I'm into Video Games, Blockchain, Ai, and faster cars than you.",
   years: "1980s — now",
   location: "Las Vegas",
@@ -49,7 +49,7 @@ export const socials: SiteSocial[] = [
 
 export const aboutBlurb = `Destroyer of Donuts. Video game developer. VFX fanboy. Coffee addict. Speed junkie. MOCAP actor. Nigorizake master. Merkle tree-hugger. Token maker. GPU hoarder. Father of females.`;
 
-export const aboutBody = `Forty-plus years across games, tools, and pictures that move. I shipped CAPTURE! — the battle-royale CTF with jail 1-on-1s — into id Software's Extremities netpack, built SUPER SHMUP, ran real-time 3D stream stages that listened to live chat, and now I make local-first AI software you can actually run on your machine: Dictate Capture, Side Eye, Token Savers, Jarvis in Cursor, Switchyard on Windows.`;
+export const aboutBody = `Forty-plus years across games, tools, and pictures that move. I shipped CAPTURE! — the battle-royale CTF with jail 1-on-1s — into id Software's Extremities netpack, built SUPER SHMUP, ran real-time 3D stream stages that listened to live chat, and now I make local-first AI software you can actually run on your machine: MASKCLAW, Dictate Capture, Side Eye, Token Savers, Jarvis in Cursor, Switchyard on Windows.`;
 
 export const overtureWorld: WorldConfig = {
   kind: "tsuki",

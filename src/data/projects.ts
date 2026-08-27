@@ -10,6 +10,50 @@ import type { Project } from "./types";
  */
 export const projects: Project[] = [
   {
+    slug: "maskclaw",
+    title: "MASKCLAW",
+    kicker: "Proxy · Privacy",
+    reel: "00:02:08",
+    year: "2026",
+    lane: "product",
+    openSource: true,
+    featured: true,
+    summary:
+      "On-prem privacy proxy for OpenAI-compatible clients. Secrets and PII become placeholders, the redacted request is routed, then originals come back.",
+    body: "Two products, one repo: MASKCLAW DESKTOP on Windows and a Raspberry Pi 5 appliance on the LAN. Prompts hit MaskClaw first. Built-in detectors (email, phone, SSN, cards, JWTs, AWS keys, API keys) swap hits for session-stable placeholders that live in RAM only. Point Cursor, Continue, Open WebUI, or any OpenAI-compatible SDK at the proxy — model id maskclaw for smart routing. The engine is a Switchyard fork with the MaskClaw privacy layer.",
+    tags: ["privacy", "proxy", "Windows", "Raspberry Pi", "Switchyard"],
+    links: [
+      { label: "maskclaw.com", href: "https://maskclaw.com", kind: "live" },
+      {
+        label: "GitHub",
+        href: "https://github.com/budezllc/maskclaw",
+        kind: "repo",
+      },
+    ],
+    media: {
+      kind: "gallery",
+      hero: {
+        src: "/media/maskclaw/hero.png",
+        title: "MASKCLAW — privacy proxy header",
+      },
+      shots: [
+        { src: "/media/maskclaw/home.png", title: "MASKCLAW — HOME" },
+        { src: "/media/maskclaw/masked.png", title: "MASKCLAW — MASKED" },
+        { src: "/media/maskclaw/models.png", title: "MASKCLAW — MODELS" },
+        { src: "/media/maskclaw/settings.png", title: "MASKCLAW — SETTINGS" },
+      ],
+    },
+    world: {
+      kind: "gateway",
+      palette: {
+        primary: "#c99c33",
+        secondary: "#8fb8b0",
+        accent: "#c45c4a",
+        fog: "#0c0c08",
+      },
+    },
+  },
+  {
     slug: "dictate-capture",
     title: "Dictate Capture",
     kicker: "Tool · Windows",

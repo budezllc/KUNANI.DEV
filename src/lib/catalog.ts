@@ -24,6 +24,7 @@ const KINDS = new Set([
 const LINK_KINDS = new Set(["live", "repo", "store", "docs", "video", "archive"]);
 
 export const REQUIRED_SLUGS = [
+  "maskclaw",
   "dictate-capture",
   "side-eye",
   "zork-reborn",
@@ -77,15 +78,30 @@ export function assertProject(project: Project, index = 0): void {
         throw new Error(`${where}: invalid YouTube id`);
       }
     } else if (project.media.kind === "image") {
-      if (!isLocalImageSrc(project.media.src)) {
-        throw new Error(`${where}: invalid image src`);
+      assertLocalStill(project.media, where);
+    } else if (project.media.kind === "gallery") {
+      assertLocalStill(project.media.hero, `${where}: gallery hero`);
+      if (!project.media.shots.length) {
+        throw new Error(`${where}: gallery needs at least one shot`);
       }
-      if (!project.media.title.trim()) {
-        throw new Error(`${where}: image title required`);
-      }
+      project.media.shots.forEach((shot, shotIndex) => {
+        assertLocalStill(shot, `${where}: gallery shot ${shotIndex}`);
+      });
     } else {
       throw new Error(`${where}: unsupported media kind`);
     }
+  }
+}
+
+function assertLocalStill(
+  still: { src: string; title: string },
+  where: string,
+): void {
+  if (!isLocalImageSrc(still.src)) {
+    throw new Error(`${where}: invalid image src`);
+  }
+  if (!still.title.trim()) {
+    throw new Error(`${where}: image title required`);
   }
 }
 

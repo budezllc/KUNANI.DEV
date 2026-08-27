@@ -104,7 +104,7 @@ describe("hostLoopsToCover", () => {
     expect(HOST_CLIP).toEqual({ durationSec: 6, fps: 60 });
     const sessionMs = totalDuration(buildTimeline(sessionEvents()));
     const cover = hostSuggestedClipSec(sessionMs, chapterIds().length);
-    expect(hostLoopsToCover(hostEffectiveClipSec(HOST_CLIP.durationSec), cover)).toBe(7);
+    expect(hostLoopsToCover(hostEffectiveClipSec(HOST_CLIP.durationSec), cover)).toBe(8);
   });
 });
 
@@ -112,9 +112,9 @@ describe("hostSuggestedClipSec", () => {
   it("asks for a 1x clip that lasts the whole autoplay including snap pauses", () => {
     const sessionMs = totalDuration(buildTimeline(sessionEvents()));
     const sec = hostSuggestedClipSec(sessionMs, chapterIds().length);
-    expect(sessionMs).toBe(78_470);
-    expect(chapterIds()).toHaveLength(12);
-    expect(sec).toBe(91);
+    expect(sessionMs).toBe(85_096);
+    expect(chapterIds()).toHaveLength(13);
+    expect(sec).toBe(98);
   });
 });
 
