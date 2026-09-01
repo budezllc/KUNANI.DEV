@@ -23,7 +23,7 @@ Required fields:
 | `world.palette` | `#rrggbb` for `primary`, `secondary`, `accent`, `fog`. |
 | `media` | Optional `{ kind: "youtube", id, title }` to embed a reel. |
 
-Then run `npm test` — the catalog schema rejects missing links, bad slugs, duplicate ids, and invalid YouTube ids.
+Then run `npm test` — the catalog schema rejects missing links, bad slugs, duplicate ids, and invalid YouTube ids. `npm run build` writes that same catalog into `dist/index.html` so crawlers and no-JS see titles, years, and the live description. The React session still replaces `#root` on boot.
 
 ## Scripts
 

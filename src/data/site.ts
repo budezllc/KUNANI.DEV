@@ -1,4 +1,4 @@
-import type { SiteSocial, WorldConfig } from "./types";
+import type { SiteSocial, WorldConfig } from "./types.ts";
 
 export const site = {
   name: "Kunani",
